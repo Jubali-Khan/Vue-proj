@@ -7,20 +7,60 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="root">{{greeting}}</div>
+    <style>
+      .box {
+        border: 5px solid black;
+      }
+      .red {
+        background-color: lightcoral;
+        margin: 10px;
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+      }
+      .blue {
+        background-color: lightskyblue;
+        margin: 10px;
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+      }
+      .else {
+        background-color: lightgreen;
+        margin: 10px;
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+      }
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+    <!-- v-cloak attribute with its styling stop specific elements from showing up when refreshing -->
+    <div id="root" v-cloak>
+      {{greeting}}
+      <br />
+      <input type="text" v-model="greeting" />
+      <!-- Vue directive v-model binds variable greeting with input element's value -->
+      <hr />
+      <div v-if="isVisible" class="red box">red box</div>
+      <div v-else-if="isVisible2" class="blue box">blue box</div>
+      <div v-else class="else box">else box</div>
+      <!-- if the value in the vue directive v-if is truthy, the element is rendered -->
+      <div v-show="isVisible">hello v-show</div>
+      <!-- unlike the v-if, v-show directive renders the element either way, but the element's display is set to 'none' with inline CSS when v-show's value is falsy -->
+    </div>
     <script src="https://unpkg.com/vue@3"></script>
     <script>
-      // method createApp() can be passed an options object, it contains any variables and functions that will be used in the application
       let app = Vue.createApp({
-        // data function is used to create variables
         data: function () {
-          // it returns an object with the variables
           return {
             greeting: 'Hello Vue3',
+            isVisible: false,
+            isVisible2: false,
           };
         },
       });
-      // method mount('#id') mounts Vue app to the html element with the id in brackets
       app.mount('#root');
     </script>
   </body>
