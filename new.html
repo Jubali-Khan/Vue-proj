@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+      #root {
+        font-family: monospace;
+        font-weight: 600;
+        font-size: larger;
+      }
+      img {
+        display: block;
+      }
+    </style>
+    <div id="root" v-cloak>
+      Variables list:
+      <ul>
+        <li>var1: {{var1}}</li>
+        <li>won: {{won}}</li>
+      </ul>
+      <button @click="win">win!</button>
+      <button @click="lose">lose!</button>
+      <img
+        src="https://cdn.xxl.thumbs.canstockphoto.com/canstock37095333.jpg"
+        v-if="won"
+        alt="you win! picture"
+      />
+      <img
+        src="https://cdn.xxl.thumbs.canstockphoto.com/canstock38170934.jpg"
+        v-else
+        alt="you lose! picture"
+      />
+      <button @click="clg">event</button>
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+      let app = Vue.createApp({
+        data: function () {
+          return {
+            var1: 1,
+            won: false,
+          };
+        },
+        methods: {
+          win() {
+            this.won = true;
+          },
+          lose() {
+            this.won = false;
+          },
+          clg() {
+            console.log(event);
+          },
+        },
+      });
+      app.mount('#root');
+    </script>
+  </body>
+</html>

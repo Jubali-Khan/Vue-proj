@@ -36,29 +36,48 @@
         display: none;
       }
     </style>
-    <!-- v-cloak attribute with its styling stop specific elements from showing up when refreshing -->
+
     <div id="root" v-cloak>
       {{greeting}}
       <br />
-      <input type="text" v-model="greeting" />
-      <!-- Vue directive v-model binds variable greeting with input element's value -->
+      <input
+        type="text"
+        @keyup.enter="greet(greeting+111)"
+        v-model="greeting"
+      />
+
       <hr />
+      <!-- v-on: directive is used for event handlers in Vue. it is followed by eventName -->
+      <!-- Its value is the JS that should be executed for the event. -->
+      <button v-on:click="isVisible = !isVisible">
+        {{isVisible ? 'Hide' : 'Show'}} the box
+      </button>
+      <button @click="toggleBox">
+        {{isVisible ? 'Hide' : 'Show'}} the box
+      </button>
+      {{isVisible}}
       <div v-if="isVisible" class="red box">red box</div>
-      <div v-else-if="isVisible2" class="blue box">blue box</div>
-      <div v-else class="else box">else box</div>
-      <!-- if the value in the vue directive v-if is truthy, the element is rendered -->
-      <div v-show="isVisible">hello v-show</div>
-      <!-- unlike the v-if, v-show directive renders the element either way, but the element's display is set to 'none' with inline CSS when v-show's value is falsy -->
+
+      <hr />
     </div>
     <script src="https://unpkg.com/vue@3"></script>
     <script>
       let app = Vue.createApp({
-        data: function () {
+        data() {
           return {
             greeting: 'Hello Vue3',
             isVisible: false,
-            isVisible2: false,
           };
+        },
+        // methods is another key that handles all methods/functions for the app
+        methods: {
+          toggleBox() {
+            // Vue handles putting all the methods and variables on the this context
+            return (this.isVisible = !this.isVisible);
+          },
+          greet(arg) {
+            console.log(this.greeting);
+          },
         },
       });
       app.mount('#root');
