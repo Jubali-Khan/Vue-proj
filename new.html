@@ -112,6 +112,31 @@
         },
       });
 
+      app.component('looped-images', {
+        template: `
+        <div>
+          <img v-for="(imageObj, i) in imgArr"
+          :src="imageObj.src"
+          :alt="imageObj.alt"
+          :key="i" />
+        </div>
+        `,
+        data() {
+          return {
+            imgArr: [
+              {
+                src: 'http://images6.fanpop.com/image/photos/42800000/random-random-42843735-564-634.jpg',
+                alt: 'man with cool glasses',
+              },
+              {
+                src: 'http://www.mandysam.com/img/random.jpg',
+                alt: 'Homer Simpson',
+              },
+            ],
+          };
+        },
+      });
+
       app.mount('#root');
     </script>
   </body>
