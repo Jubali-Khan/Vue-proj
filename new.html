@@ -18,6 +18,9 @@
       }
       img {
         display: block;
+        margin: 10px;
+        width: 250px;
+        height: 250px;
       }
     </style>
     <div id="root" v-cloak>
@@ -38,7 +41,9 @@
         v-else
         alt="you lose! picture"
       />
-      <button @click="clg">event</button>
+      <hr />
+      <compound-component />
+      <looped-images />
     </div>
     <script src="https://unpkg.com/vue@3"></script>
     <script>
@@ -61,6 +66,52 @@
           },
         },
       });
+
+      app.component('compound-component', {
+        template: `
+        <div>
+          <label>Enter your first name
+            <br>
+            <custom-input v-model="modeledVar" :name="passedDownFName" />
+          </label>
+          <br>
+          <label>Enter your last name
+            <br>
+            <custom-input
+            v-model="modeledVar"
+            :name="passedDownLName" />
+          </label>
+        </div>
+        `,
+        components: ['custom-input'],
+        data() {
+          return {
+            modeledVar: 'heyo',
+
+            passedDownFName: 'Foo',
+            passedDownLName: 'Bar',
+          };
+        },
+      });
+
+      app.component('custom-input', {
+        template: `
+          <input />
+          {{modelValue}}
+        `,
+        props: ['name'],
+        computed: {
+          modeledVar: {
+            get() {
+              return this.modelValue;
+            },
+            set(value) {
+              this.$emit('update:modelValue', value);
+            },
+          },
+        },
+      });
+
       app.mount('#root');
     </script>
   </body>

@@ -84,18 +84,22 @@
         },
       });
 
-      // app.component has to be declared after app is declared and before .mount() is used
-      // v-bind directive allows for an attribute to pass a varibale to child component. Without it, you can only pass a string
       app.component('login-form', {
         template: `
         <form @submit.prevent="handleSubmit">
           <h2>{{title}}</h2>
-          <custom-input v-bind:label="emailLabel" />
-          <custom-input       :label="passwordLabel" />
+          <custom-input
+            v-model="email"
+            :label="emailLabel"
+          />
+          <custom-input
+            v-model="password"
+            :label="passwordLabel"
+          />
           <button>login</button>
         </form>
         `,
-        // components key contains an array with child components' names
+
         components: ['custom-input'],
         data() {
           return {
@@ -108,20 +112,33 @@
         },
         methods: {
           handleSubmit() {
-            console.log('submitted');
+            console.log('email:', this.email);
+            console.log('password:', this.password);
           },
         },
       });
 
+      //
+      //
       app.component('custom-input', {
         template: `
           <label >{{label}}
-            <input type="text" />
+            <input type="text" v-model="inputValue" />
           </label>
           <br/>
           `,
-        // props key contains an array with the names of variables passed from parent to child component
-        props: ['label'],
+
+        props: ['label', 'modelValue', 'type'],
+        computed: {
+          inputValue: {
+            get() {
+              return this.modelValue;
+            },
+            set(value) {
+              this.$emit('update:modelValue', value);
+            },
+          },
+        },
       });
 
       app.mount('#root');
